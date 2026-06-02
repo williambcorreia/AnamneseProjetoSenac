@@ -16,11 +16,11 @@ export const style = StyleSheet.create({
 		alignItems:'center',
     justifyContent:'center',
     gap: 20,
-    marginBottom: 50
+    marginBottom: 25
   },
 
   loginMid: {
-    width: 300,
+    width: 315,
     height: 150,
     justifyContent:'center',
     gap: 5,
@@ -31,14 +31,13 @@ export const style = StyleSheet.create({
     height: 150,
 		alignItems:'center',
     justifyContent:'flex-end',
-    backgroundColor:'white',
-		gap: 10
+		gap: 20
   },
   
 	greenBorder: {
 		width: '100%',
 		height: 35,
-		backgroundColor: 'green',
+		backgroundColor: 'mediumseagreen',
 		position:'absolute',
 		top: 0,
 	},
@@ -46,6 +45,16 @@ export const style = StyleSheet.create({
 	logo: {
 		width: 120,
 		height: 120,
-	}
+	},
+
+	f16r: {
+		fontSize: 16,
+		fontFamily: 'Inter_400Regular'
+	},
+
+	f22m: {
+		fontSize: 22,
+		fontFamily: 'Inter_500Medium'
+	},
 
 })
