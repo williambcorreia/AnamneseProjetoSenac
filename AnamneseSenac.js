@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { style } from './styles';
 import { useFonts, Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
 import Login from './screens/Login';
-import Home from './screens/Home';
+import HomeTabs from './screens/HomeTabs';
 
 export default function App() {
 
@@ -24,7 +24,7 @@ export default function App() {
 	    <StatusBar style='auto'/>
 			<Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false}}>
 				<Stack.Screen name='Login' component={Login}/>
-				<Stack.Screen name='Home' component={Home}/>
+				<Stack.Screen name='HomeTabs' component={HomeTabs}/>
 			</Stack.Navigator>
 		</NavigationContainer>
   );
