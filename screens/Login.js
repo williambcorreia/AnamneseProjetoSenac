@@ -55,7 +55,7 @@ export default function Login({ navigation }) {
 			)
 
 			if (userFound) {
-				navigation.replace('Home')
+				navigation.replace('HomeTabs', {userRole: userFound.role})
 			} else {
 				Alert.alert("Erro", "Usuário ou senha incorretos!")
 			}
