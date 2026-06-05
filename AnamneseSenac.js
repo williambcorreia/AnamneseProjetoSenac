@@ -1,10 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
-import Login from './screens/Login';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { style } from './styles';
 import { useFonts, Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
+import Login from './screens/Login';
+import Home from './screens/Home';
 
 export default function App() {
+
+		const Stack = createNativeStackNavigator()
 
 		const [fontsLoaded] = useFonts({
 			Inter_400Regular,
@@ -16,9 +20,12 @@ export default function App() {
 		}
 
   return (
-    <View style={style.container}>
-	    <Login/>
+		<NavigationContainer>
 	    <StatusBar style='auto'/>
-    </View>
+			<Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false}}>
+				<Stack.Screen name='Login' component={Login}/>
+				<Stack.Screen name='Home' component={Home}/>
+			</Stack.Navigator>
+		</NavigationContainer>
   );
 }
