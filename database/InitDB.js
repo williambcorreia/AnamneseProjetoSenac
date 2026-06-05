@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import * as Crypt from 'expo-crypto'
 
-export default async function Deploy() {
+export default async function DeployDB() {
 	
 	try {
 		const db = await SQLite.openDatabaseAsync('users.db')
@@ -20,10 +20,10 @@ export default async function Deploy() {
 
 		if (result.total === 0) {
 			const defaultUsers = [
-				{ user: "defenastradorVitao", role: "root", email: "root@exemplo.com", password: "S3nh@R00T"},
-				{ user: "juliaSouza", role: "enf", email: "enf@exemplo.com", password: "JuliaA45$"},
-				{ user: "amandaMendes", role: "tecenf", email: "tecenf@exemplo.com", password: "AMANd#23%"},
-				{ user: "raimundoJorge", role: "coord", email: "admin@exemplo.com", password: "rmndJG*09"}
+				{ user: "defenastradorVitao", role: "Root", email: "root@exemplo.com", password: "S3nh@R00T"},
+				{ user: "juliaSouza", role: "Enf", email: "enf@exemplo.com", password: "JuliaA45$"},
+				{ user: "amandaMendes", role: "TecEnf", email: "tecenf@exemplo.com", password: "AMANd#23%"},
+				{ user: "raimundoJorge", role: "Coord", email: "admin@exemplo.com", password: "rmndJG*09"}
 			]
 
 			for (const users of defaultUsers) {
@@ -40,6 +40,6 @@ export default async function Deploy() {
 	return db
 
 	} catch (error) {
-	return "err"
+		return "err"
 	}
 }

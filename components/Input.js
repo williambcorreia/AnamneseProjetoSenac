@@ -42,6 +42,7 @@ export const style = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'gray',
     borderRadius: 30,
+		paddingLeft: 10
   },
 
 	icon: {
