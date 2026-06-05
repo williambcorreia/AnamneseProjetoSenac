@@ -7,7 +7,7 @@ export const style = StyleSheet.create({
     justifyContent:'center',
 		alignItems:'center',
 		backgroundColor: 'white',
-		gap: 20
+		gap: 10
 	},
 
   loginTop: {
@@ -16,7 +16,7 @@ export const style = StyleSheet.create({
 		alignItems:'center',
     justifyContent:'center',
     gap: 20,
-    marginBottom: 25
+    marginBottom: 50
   },
 
   loginMid: {
@@ -24,6 +24,7 @@ export const style = StyleSheet.create({
     height: 150,
     justifyContent:'center',
     gap: 5,
+		marginBottom: 70
   },
 
   loginBottom: {
