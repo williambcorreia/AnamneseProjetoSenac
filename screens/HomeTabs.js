@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Evolucao, Perfil, Prescricao } from './Home'
+import { Evolucao, Config, Prescricao } from './Home'
 
 const Tab = createBottomTabNavigator()
 
@@ -26,15 +26,17 @@ export default function HomeTabs({route}) {
 			initialParams={{ role }}
 			options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='notes-medical' size={size} color={color}/>)}}/>
 
+			{ role === 'Enf' ? (
 			<Tab.Screen 
 			name="Prescrição" 
 			component={Prescricao} 
 			options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='clipboard-check' size={size} color={color}/>)}}/>
+			) : null }
 
 			<Tab.Screen 
-			name="Perfil" 
-			component={Perfil} 
-			options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='user-alt' size={size} color={color}/>)}}/>
+			name="Configurações" 
+			component={Config} 
+			options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='cog' size={size} color={color}/>)}}/>
 
 		</Tab.Navigator>
 	)
