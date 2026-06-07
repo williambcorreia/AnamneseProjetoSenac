@@ -5,6 +5,7 @@ import { style } from './styles';
 import { useFonts, Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
 import Login from './screens/Login';
 import HomeTabs from './screens/HomeTabs';
+import { Transcricao, Config } from './screens/Home';
 
 export default function App() {
 
@@ -25,6 +26,8 @@ export default function App() {
 			<Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false}}>
 				<Stack.Screen name='Login' component={Login}/>
 				<Stack.Screen name='HomeTabs' component={HomeTabs}/>
+				<Stack.Screen name='Transcrição' component={Transcricao}/>
+				<Stack.Screen name='Config' component={Config}/>
 			</Stack.Navigator>
 		</NavigationContainer>
   );
