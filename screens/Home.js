@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { style } from '../styles'
@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import CfgButton from '../components/ConfigButton'
 import RoundBtn from '../components/RoundButton'
 import CloseBtn from '../components/CloseButton'
+import RecordBtn from '../components/RecordButton'
 
 export function Evolucao({route, navigation}) {
 
@@ -22,10 +23,11 @@ export function Evolucao({route, navigation}) {
 }
 
 export function Transcricao({route, navigation}) {
+
 	return(
 		<View style={style.container}>
 		<View style={style.greenBorder}/>
-			<Text>Transcricao</Text>
+			<RecordBtn iconSize={60} iconColor='white'/>
 			<CloseBtn iconName="chevron-left" onPress={() => navigation.goBack()}/>
 		</View>
 	)
@@ -42,7 +44,7 @@ export function Prescricao({route}) {
 export function Config({route, navigation}) {
 
 	const handleLogout = () => {
-		Alert.alert("Encerrar Sessão", "Deseja realmente sair da sua conta?",
+		Alert.alert("Encerrar sessão", "Deseja realmente sair da sua conta?",
 			[{ text: "Cancelar", style:'cancel'}, {text: "Sair", onPress: () => navigation.replace('Login')}],
 			{cancelable: true}
 		)
