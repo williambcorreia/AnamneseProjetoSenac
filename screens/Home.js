@@ -24,10 +24,12 @@ export function Evolucao({route, navigation}) {
 
 export function Transcricao({route, navigation}) {
 
+	const textoRecebido = (texto) => {console.log("Gravação finalizada, texto recebido: ", texto)}
+
 	return(
 		<View style={style.container}>
 		<View style={style.greenBorder}/>
-			<RecordBtn iconSize={60} iconColor='white'/>
+			<RecordBtn iconSize={60} iconColor='white' finalGravacao={textoRecebido}/>
 			<CloseBtn iconName="chevron-left" onPress={() => navigation.goBack()}/>
 		</View>
 	)
