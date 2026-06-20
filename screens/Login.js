@@ -19,18 +19,17 @@ export default function Login({ navigation }) {
 			setHidePassword(!hidePassword)
 		}
 
-	useEffect(() => {
-		async function connectDB() {
-			const connection = await DeployDB()
-			if (connection === "err") {
-				Alert.alert("Erro", "Não foi possível se conectar ao banco de dados")
-			} else {
-				setDb(connection)
+		useEffect(() => {
+			async function connectDB() {
+				const connection = await DeployDB()
+				if (connection === "err") {
+					Alert.alert("Erro", "Não foi possível se conectar ao banco de dados")
+				} else {
+					setDb(connection)
+				}
 			}
-		}
-		connectDB()
-	}, [])
-		
+			connectDB()
+		}, [])
 
 	const handleLogin = async () => {
 		
