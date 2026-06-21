@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { style } from '../styles'
@@ -7,6 +7,7 @@ import CfgButton from '../components/ConfigButton'
 import RoundBtn from '../components/RoundButton'
 import CloseBtn from '../components/CloseButton'
 import RecordBtn from '../components/RecordButton'
+import { executarLLM, baixarLLM } from '../services/llm'
 
 export function Evolucao({route, navigation}) {
 
@@ -24,7 +25,19 @@ export function Evolucao({route, navigation}) {
 
 export function Transcricao({route, navigation}) {
 
-	const textoRecebido = (texto) => {console.log("Gravação finalizada, texto recebido: ", texto)}
+	useEffect(() => {baixarLLM()}, [])
+
+	const textoRecebido = async (texto) => {
+		console.log("Texto da gravação: ", texto)
+
+		try {
+			console.log("Processando na LLM...")
+			const textoFormatado = await executarLLM(texto)
+			console.log("Texto da LLM: ", textoFormatado)
+		} catch (err) {
+			console.error("Erro: ", err)
+		}
+	}
 
 	return(
 		<View style={style.container}>
