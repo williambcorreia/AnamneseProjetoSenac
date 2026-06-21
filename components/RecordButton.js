@@ -19,24 +19,31 @@ export default function RecordBtn({finalGravacao, title, iconName, iconColor, ic
 	}, []);
 
 	useSpeechRecognitionEvent("start", () => {setRecOn(true)})
-	useSpeechRecognitionEvent("end", () => {
-
+	useSpeechRecognitionEvent("end", (event) => {
 		setRecOn(false)
+
+		const resultado = textoVoz.trim()
+
 		if (textoVoz.trim().length > 0) {
-			finalGravacao(textoVoz)
+			finalGravacao(resultado)
 		}
 
 	})
 
 	useSpeechRecognitionEvent("result", (event) => {
-		const resultado = event.results[0]?.transcript
+		if (!event.results) return
+
+		let resultado = event.results.filter((result) => result.isFinal).map((result) => result.transcript).join(" ")
+
+		if (!resultado && event.results.length > 0) resultado = event.results[event.results.length - 1].transcript
+    
 		if (resultado) {
 			setTextoVoz(resultado)
 		}
 	})
 
   const startRec = () => {
-		console.log("clique")
+		console.log("Gravação iniciada...")
     if (recOn) {
       ExpoSpeechRecognitionModule.stop();
     } else {
@@ -44,8 +51,12 @@ export default function RecordBtn({finalGravacao, title, iconName, iconColor, ic
 
 		ExpoSpeechRecognitionModule.start({
 			lang: "pt-BR",
-			interimResults: true,
+			interimResults: false,
 			continuous: true,
+			androidIntentOptions: {
+				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
+				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
+			}
 		})
   }
 }

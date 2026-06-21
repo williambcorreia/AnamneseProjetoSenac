@@ -81,6 +81,7 @@ export default function Login({ navigation }) {
 				<Text style={style.f16r}>Usuário ou Email</Text>
         <Input 
 					placeholder="exemplo@gmail.com" 
+					placeholderTextColor='gray'
 					iconName="user-alt" 
 					onChangeText={setUser} 
 					value={user}/>
@@ -88,6 +89,7 @@ export default function Login({ navigation }) {
 				<Text style={[style.f16r, {paddingTop: 10}]}>Senha</Text>
         <Input 
 					placeholder="$enhaExemplo123" 
+					placeholderTextColor='gray'
 					iconName={hidePassword ? "eye-slash" : "eye"}
 					iconPress={showPassword} 
 					secureTextEntry={hidePassword}
