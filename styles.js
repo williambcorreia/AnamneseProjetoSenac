@@ -58,4 +58,12 @@ export const style = StyleSheet.create({
 		fontFamily: 'Inter_500Medium'
 	},
 
+	legenda: {
+		position: 'absolute',
+		top: 520,
+		width: '90%',
+		maxHeight: 150,
+		alignSelf: 'center',
+	},
+
 })
