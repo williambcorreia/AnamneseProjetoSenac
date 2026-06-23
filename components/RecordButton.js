@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useSpeechRecognitionEvent, ExpoSpeechRecognitionModule } from "expo-speech-recognition";
 
-export default function RecordBtn({finalGravacao, title, iconName, iconColor, iconSize, ...props}) {
+export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, iconColor, iconSize, ...props}) {
 
 	const [recOn, setRecOn] = useState(false)
 	const [textoVoz, setTextoVoz] = useState("")
@@ -39,6 +39,7 @@ export default function RecordBtn({finalGravacao, title, iconName, iconColor, ic
     
 		if (resultado) {
 			setTextoVoz(resultado)
+			mudouTexto(resultado)
 		}
 	})
 
@@ -48,14 +49,16 @@ export default function RecordBtn({finalGravacao, title, iconName, iconColor, ic
       ExpoSpeechRecognitionModule.stop();
     } else {
       setTextoVoz("")
+			mudouTexto("")
 
 		ExpoSpeechRecognitionModule.start({
 			lang: "pt-BR",
-			interimResults: false,
+			interimResults: true,
 			continuous: true,
+			requiresOnDeviceRecognition: true,
 			androidIntentOptions: {
-				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
-				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
+				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 3000,
+				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 3000,
 			}
 		})
   }
