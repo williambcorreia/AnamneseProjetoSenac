@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, Alert } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { style } from '../styles'
 import Button from '../components/Button'
@@ -25,7 +25,8 @@ export function Evolucao({route, navigation}) {
 
 export function Transcricao({route, navigation}) {
 
-	useEffect(() => {baixarLLM()}, [])
+	const [legenda, setLegenda] = useState("")
+	const scrollViewRef = useRef(null)
 
 	const textoRecebido = async (texto) => {
 		console.log("Texto da gravação: ", texto)
@@ -42,8 +43,16 @@ export function Transcricao({route, navigation}) {
 	return(
 		<View style={style.container}>
 		<View style={style.greenBorder}/>
-			<RecordBtn iconSize={60} iconColor='white' finalGravacao={textoRecebido}/>
+			<RecordBtn iconSize={60} iconColor='white' finalGravacao={textoRecebido} mudouTexto={(textoAtual) => setLegenda(textoAtual)}/>
 			<CloseBtn iconName="chevron-left" onPress={() => navigation.goBack()}/>
+			{legenda ? (
+				<View style={style.legenda}>
+					<ScrollView ref={scrollViewRef} 
+						onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true})}>
+						<Text style={style.f22m}>{legenda}</Text>
+					</ScrollView>
+				</View>
+			) : null}
 		</View>
 	)
 }
