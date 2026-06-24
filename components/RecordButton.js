@@ -22,18 +22,19 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 	useSpeechRecognitionEvent("end", (event) => {
 		setRecOn(false)
 
-		const resultado = textoVoz.trim()
-
-		if (textoVoz.trim().length > 0) {
-			finalGravacao(resultado)
-		}
-
+		setTextoVoz((textoAtual) => { 
+			const resultado = textoAtual.trim();
+			if (resultado.length > 0) {
+					finalGravacao(resultado)
+			}
+			return textoAtual;
+		})
 	})
 
 	useSpeechRecognitionEvent("result", (event) => {
 		if (!event.results) return
 
-		let resultado = event.results.filter((result) => result.isFinal).map((result) => result.transcript).join(" ")
+		let resultado = event.results.map((result) => result.transcript).join(" ").trim()
 
 		if (!resultado && event.results.length > 0) resultado = event.results[event.results.length - 1].transcript
     
@@ -57,8 +58,8 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 			continuous: true,
 			requiresOnDeviceRecognition: true,
 			androidIntentOptions: {
-				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 3000,
-				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 3000,
+				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
+				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
 			}
 		})
   }
@@ -69,8 +70,8 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 			<FontAwesome5 name={recOn ? "stop" : "microphone"} size={iconSize} color={iconColor}/>
 
 			{recOn ? 
-				<Text style={{color: 'white'}}>Clique para encerrar</Text>
-				: <Text style={{color: 'white'}}>Clique para evoluir</Text>
+				<Text style={style.font}>Clique para encerrar</Text>
+				: <Text style={style.font}>Clique para evoluir</Text>
 			}
 		</TouchableOpacity>
 	)
@@ -81,12 +82,18 @@ export const style = StyleSheet.create({
 	button: {
 		backgroundColor: 'mediumseagreen',
 		borderRadius: 100,
-		width: 200,
-		height: 200,
-		gap: 10,
+		width: 160,
+		height: 160,
 		paddingTop: 15,
 		justifyContent: 'center',
 		alignItems: 'center',
+		marginBottom: 150
+	},
+
+	font: {
+		fontSize: 12,
+		fontFamily: "Inter_500Medium",
+		color: 'white'
 	},
 
 	activeBtn: {
