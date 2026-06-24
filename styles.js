@@ -60,9 +60,9 @@ export const style = StyleSheet.create({
 
 	legenda: {
 		position: 'absolute',
-		top: 520,
+		top: 440,
 		width: '90%',
-		maxHeight: 150,
+		maxHeight: 350,
 		alignSelf: 'center',
 	},
 
