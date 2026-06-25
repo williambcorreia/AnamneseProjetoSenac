@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Alert, ScrollView, ActivityIndicator, Button as Btn } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { style } from '../styles'
 import Button from '../components/Button'
@@ -32,11 +32,15 @@ export function Transcricao({route, navigation}) {
 		console.log("Texto da gravação: ", texto)
 
 		try {
+			setTimeout(() => {
+				navigation.navigate("Carregamento")
+			}, 0)
 			console.log("Processando na LLM...")
 			const textoFormatado = await executarLLM(texto)
 			console.log("Texto da LLM: ", textoFormatado)
 		} catch (err) {
 			console.error("Erro: ", err)
+			//navigation.navigate("Transcrição")
 		}
 	}
 
@@ -77,6 +81,26 @@ export function Config({route, navigation}) {
 	return(
 		<View style={[style.container, {justifyContent: 'flex-start'}]}>
 			<CfgButton title="Sair" titleColor="red" onPress={handleLogout}/>
+		</View>
+	)
+}
+
+export function Carregamento({navigation}) {
+	return (
+		<View style={style.container}>
+			<View style={style.greenBorder}/>
+			<ActivityIndicator size={100} color='mediumseagreen'/>
+			<Text style={style.f16r}>Formatando evolução na IA...</Text>
+			<Btn title="ir para rascunho" onPress={() => navigation.navigate("Rascunho")}/>
+		</View>
+	)
+}
+
+export function Rascunho({navigation}) {
+	return (
+		<View style={style.container}>
+			<View style={style.greenBorder}/>
+			<Text>Tela de rascunho</Text>
 		</View>
 	)
 }

@@ -5,7 +5,7 @@ import { style } from './styles';
 import { useFonts, Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
 import Login from './screens/Login';
 import HomeTabs from './screens/HomeTabs';
-import { Transcricao, Config } from './screens/Home';
+import { Transcricao, Config, Carregamento, Rascunho } from './screens/Home';
 
 export default function App() {
 
@@ -28,6 +28,8 @@ export default function App() {
 				<Stack.Screen name='HomeTabs' component={HomeTabs}/>
 				<Stack.Screen name='Transcrição' component={Transcricao}/>
 				<Stack.Screen name='Config' component={Config}/>
+				<Stack.Screen name='Carregamento' component={Carregamento}/>
+				<Stack.Screen name='Rascunho' component={Rascunho}/>
 			</Stack.Navigator>
 		</NavigationContainer>
   );
