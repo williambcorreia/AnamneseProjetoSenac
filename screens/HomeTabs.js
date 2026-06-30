@@ -20,18 +20,19 @@ export default function HomeTabs({route}) {
 			tabBarStyle: style.tabBar,
 			tabBarLabelStyle: style.tabBarLabel}}>
 
-			<Tab.Screen 
-			name="Evolução" 
-			component={Evolucao} 
-			initialParams={{ role }}
-			options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='notes-medical' size={size} color={color}/>)}}/>
+			{ role === 'Enf' || role === 'TecEnf' ? (
+			<>
+				<Tab.Screen 
+				name="Evolução" 
+				component={Evolucao} 
+				options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='notes-medical' size={size} color={color}/>)}}/>
 
-			{ role === 'Enf' ? (
-			<Tab.Screen 
-			name="Prescrição" 
-			component={Prescricao} 
-			options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='clipboard-check' size={size} color={color}/>)}}/>
-			) : null }
+				<Tab.Screen 
+				name="Prescrição" 
+				component={Prescricao} 
+				options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='clipboard-check' size={size} color={color}/>)}}/>
+			</>
+			) : null}
 
 			<Tab.Screen 
 			name="Configurações" 

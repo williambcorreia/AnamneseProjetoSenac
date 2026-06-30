@@ -13,12 +13,10 @@ export function Evolucao({route, navigation}) {
 
 	const {role} = route.params || {}
 
-	return(
+	return (
 		<View style={style.container}>
 			<Text>Evoluções</Text>
-			{ role === 'Enf' ? (
 				<RoundBtn iconName="plus" iconColor='white' onPress={() => navigation.navigate('Transcrição')}/>
-			) : null}
 		</View>
 	)
 }
@@ -40,7 +38,6 @@ export function Transcricao({route, navigation}) {
 			console.log("Texto da LLM: ", textoFormatado)
 		} catch (err) {
 			console.error("Erro: ", err)
-			//navigation.navigate("Transcrição")
 		}
 	}
 
