@@ -7,16 +7,28 @@ export async function executarLLM(texto){
 			},
 			body: JSON.stringify({
 				model: "qwen2.5:1.5b",
-				prompt: `Você é um enfermeiro especialista. Reescreva a evolução de enfermagem abaixo seguindo estas ordens:
-				- Corrija erros ortográficos e use termos técnicos formais da área.
-				- Mantenha estrita fidelidade aos fatos ditados, sem inventar dados.
-				- Formate o texto em tópicos Markdown simples (Ex: ### Item \\n informações).
-				- Responda APENAS com a evolução formatada, em português, sem introduções ou saudações.
-					Texto: "${texto}"`,
+				prompt: `Contexto: Você é um enfermeiro especialista em auditoria e registros clínicos.
+Tarefa: Organize o exame físico contido no Texto fornecido, convertendo os termos para a nomenclatura técnica formal.
+
+Regras Estritas:
+1. Baseie-se exclusivamente nas informações do texto. Omitir dados não mencionados.
+2. Formate a saída estruturada exatamente nos tópicos abaixo (use apenas os que se aplicarem):
+   ### Aspectos Gerais
+   ### Sistema Neurológico
+   ### Sistema Respiratório
+   ### Sistema Cardiovascular
+   ### Sistema Gastrointestinal e Geniturinário
+   ### Sistema Musculoesquelético
+   ### Conduta de Enfermagem
+
+3. Restrição de Saída: Inicie a resposta diretamente com o primeiro tópico do Markdown. Proibido incluir qualquer saudação, introdução ou consideração final.
+
+Texto: "${texto}"`,
 				stream: false,
 				options: {
-					temperature: 0,
-					top_p: 0.9
+					temperature: 0.1,
+					top_p: 0.9,
+					stop: ["<|im_end|>", "\n\n\n"]
 				}
 			}),
 		})
