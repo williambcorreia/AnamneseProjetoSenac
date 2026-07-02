@@ -5,7 +5,7 @@ import * as Crypt from 'expo-crypto'
 import Logo from "../assets/pharmacy.png";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import DeployDB from "../database/InitDB";
+import { DeployDB } from "../database/InitDB";
 
 export default function Login({ navigation }) {
 
@@ -83,6 +83,7 @@ export default function Login({ navigation }) {
 					placeholder="exemplo@gmail.com" 
 					placeholderTextColor='gray'
 					iconName="user-alt" 
+					iconSize={24}
 					onChangeText={setUser} 
 					value={user}/>
 
@@ -90,7 +91,9 @@ export default function Login({ navigation }) {
         <Input 
 					placeholder="$enhaExemplo123" 
 					placeholderTextColor='gray'
+					color='black'
 					iconName={hidePassword ? "eye-slash" : "eye"}
+					iconSize={24}
 					iconPress={showPassword} 
 					secureTextEntry={hidePassword}
 					value={password}
