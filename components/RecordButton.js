@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native"; 
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useSpeechRecognitionEvent, ExpoSpeechRecognitionModule } from "expo-speech-recognition";
@@ -7,6 +7,7 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 
 	const [recOn, setRecOn] = useState(false)
 	const [textoVoz, setTextoVoz] = useState("")
+	const textoAcumulado = useRef("")
 
 	useEffect(() => {
 		async function obterPermissao() {
@@ -27,21 +28,26 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 			if (resultado.length > 0) {
 					finalGravacao(resultado)
 			}
-			return textoAtual;
+
+			return resultado;
 		})
 	})
 
 	useSpeechRecognitionEvent("result", (event) => {
+
 		if (!event.results) return
-
 		let resultado = event.results.map((result) => result.transcript).join(" ").trim()
-
 		if (!resultado && event.results.length > 0) resultado = event.results[event.results.length - 1].transcript
     
 		if (resultado) {
-			setTextoVoz(resultado)
-			mudouTexto(resultado)
+			let textoCompleto = (textoAcumulado.current + " " + resultado).trim()
+			setTextoVoz(textoCompleto)
+			mudouTexto(textoCompleto)
 		}
+
+		const certezaResultado = event.results[event.results.length - 1]
+		if (certezaResultado?.isFinal) 
+			textoAcumulado.current = (textoAcumulado.current + " " + certezaResultado.transcript).trim()
 	})
 
   const startRec = () => {
@@ -51,6 +57,7 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
     } else {
       setTextoVoz("")
 			mudouTexto("")
+			textoAcumulado.current = ""
 
 		ExpoSpeechRecognitionModule.start({
 			lang: "pt-BR",
