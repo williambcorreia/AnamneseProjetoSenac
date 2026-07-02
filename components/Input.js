@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, Text, StyleSheet, View, Pressable } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-export default function Input({iconName, iconPress, ...props}){
+export default function Input({iconName, iconPress, iconSize, ...props}){
 
   return (
 		<View style={style.inputView}>
@@ -14,9 +14,9 @@ export default function Input({iconName, iconPress, ...props}){
 				<Pressable onPress={iconPress} style={({ pressed }) => ({
 					opacity: pressed ? 0.3 : 1
 					})}>
-					<FontAwesome5 name={iconName} size={24} color='gray'/>
+					<FontAwesome5 name={iconName} size={iconSize} color='gray'/>
 				</Pressable> ) : (
-					<FontAwesome5 name={iconName} size={24} color='gray'/>
+					<FontAwesome5 name={iconName} size={iconSize} color='gray'/>
 				)
 			}
 			</View>
