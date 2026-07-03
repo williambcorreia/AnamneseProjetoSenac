@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, Text, TouchableOpacity, Alert, ScrollView, ActivityIndicator, Button as Btn } from 'react-native'
+import { View, Text, TouchableOpacity, Alert, ScrollView, ActivityIndicator } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { style } from '../styles'
 import Button from '../components/Button'
@@ -7,7 +7,10 @@ import CfgButton from '../components/ConfigButton'
 import RoundBtn from '../components/RoundButton'
 import CloseBtn from '../components/CloseButton'
 import RecordBtn from '../components/RecordButton'
-import { executarLLM, baixarLLM } from '../services/llm'
+import Input from '../components/Input'
+import LongInput from '../components/LongInput'
+import { executarLLM } from '../services/llm'
+import { seedEvolucaoDB } from '../database/InitDB'
 
 export function Evolucao({route, navigation}) {
 
@@ -36,8 +39,10 @@ export function Transcricao({route, navigation}) {
 			console.log("Processando na LLM...")
 			const textoFormatado = await executarLLM(texto)
 			console.log("Texto da LLM: ", textoFormatado)
+			navigation.replace("Rascunho", {textoFormatado: textoFormatado})
 		} catch (err) {
 			console.error("Erro: ", err)
+			navigation.navigate("Transcrição")
 		}
 	}
 
@@ -88,16 +93,63 @@ export function Carregamento({navigation}) {
 			<View style={style.greenBorder}/>
 			<ActivityIndicator size={100} color='mediumseagreen'/>
 			<Text style={style.f16r}>Formatando evolução na IA...</Text>
-			<Btn title="ir para rascunho" onPress={() => navigation.navigate("Rascunho")}/>
 		</View>
 	)
 }
 
-export function Rascunho({navigation}) {
+export function Rascunho({route, navigation}) {
+
+	const [db, setDb] = useState(null)
+	const [nomePaciente, setNomePaciente] = useState("")
+	const [evolucao, setEvolucao] = useState("")
+	const {textoFormatado} = route.params || {}
+
+	useEffect(() => {
+		if (textoFormatado) setEvolucao(textoFormatado)
+	}, [textoFormatado])
+
+	useEffect(() => {
+		async function connectDB() {
+			const connection = await seedEvolucaoDB()
+			if (connection === "err") {
+				Alert.alert("Erro", "Não foi possível se conectar ao banco de dados")
+			} else {
+				setDb(connection)
+			}
+		}
+		connectDB()
+	}, [])
+
+	const finalizarEvolucao = async () => {
+		if (!nomePaciente) { Alert.alert("Erro", "Preencha o campo de nome do paciente"); return }
+
+		try {
+			await db.runAsync(`INSERT INTO evolucoes (feito_por, nome_paciente, texto_evolucao, data) VALUES (?, ?, ?, ?);`)
+		} catch (err) {
+			return "err"
+		}
+	}
+
 	return (
 		<View style={style.container}>
 			<View style={style.greenBorder}/>
-			<Text>Tela de rascunho</Text>
+				<View style={{alignItems: 'center', width: 330, gap: 30, marginBottom: 50, height: 550, borderWidth: 0 }}>
+					<Input 
+					placeholder='Nome do paciente' 
+					placeholderTextColor='gray'
+					color='black' 
+					iconName='address-card' 
+					iconSize={27}
+					onChangeText={setNomePaciente}
+					value={nomePaciente}/>
+
+					<LongInput
+					color='black'
+					multiline={true}
+					onChangeText={setEvolucao}
+					value={evolucao}></LongInput>
+				</View>
+			<Button title={"Finalizar"} onPress={finalizarEvolucao}/>
 		</View>
 	)
 }
