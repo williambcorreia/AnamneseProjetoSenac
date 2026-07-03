@@ -34,6 +34,14 @@ export const style = StyleSheet.create({
     justifyContent:'flex-end',
 		gap: 20
   },
+
+	draftContainer: {
+		alignItems: 'center', 
+		width: 330, 
+		gap: 30, 
+		marginBottom: 50, 
+		height: 550, 
+	},
   
 	greenBorder: {
 		width: '100%',
@@ -59,6 +67,7 @@ export const style = StyleSheet.create({
 	},
 
 	legenda: {
+		fontFamily: 'Inter_500Medium',
 		position: 'absolute',
 		top: 440,
 		width: '90%',
