@@ -25,7 +25,7 @@ export async function DeployDB() {
 				feito_por VARCHAR(100) NOT NULL,
 				nome_paciente VARCHAR(50) NOT NULL,
 				texto_evolucao TEXT NOT NULL,
-				data DATE NOT NULL,
+				data DATE NOT NULL
 			);
 		`)
 
