@@ -60,9 +60,9 @@ export async function DeployDB() {
 export async function seedEvolucaoDB() {
 	try {
 		const db = await SQLite.openDatabaseAsync('database.db')
+		return db
 	} catch (err) {
 		return "err"
 	}
 
-	return db
 }
