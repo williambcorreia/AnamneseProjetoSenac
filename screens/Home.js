@@ -101,12 +101,8 @@ export function Rascunho({route, navigation}) {
 
 	const [db, setDb] = useState(null)
 	const [nomePaciente, setNomePaciente] = useState("")
-	const [evolucao, setEvolucao] = useState("")
+	const [evolucao, setEvolucao] = useState(textoFormatado || "")
 	const {textoFormatado} = route.params || {}
-
-	useEffect(() => {
-		if (textoFormatado) setEvolucao(textoFormatado)
-	}, [textoFormatado])
 
 	useEffect(() => {
 		async function connectDB() {
@@ -124,7 +120,8 @@ export function Rascunho({route, navigation}) {
 		if (!nomePaciente) { Alert.alert("Erro", "Preencha o campo de nome do paciente"); return }
 
 		try {
-			await db.runAsync(`INSERT INTO evolucoes (feito_por, nome_paciente, texto_evolucao, data) VALUES (?, ?, ?, ?);`)
+			//await db.runAsync(`INSERT INTO evolucoes (feito_por, nome_paciente, texto_evolucao, data) VALUES (?, ?, ?, ?);`)
+			navigation.goBack()
 		} catch (err) {
 			return "err"
 		}
@@ -133,7 +130,7 @@ export function Rascunho({route, navigation}) {
 	return (
 		<View style={style.container}>
 			<View style={style.greenBorder}/>
-				<View style={{alignItems: 'center', width: 330, gap: 30, marginBottom: 50, height: 550, borderWidth: 0 }}>
+				<View style={style.draftContainer}>
 					<Input 
 					placeholder='Nome do paciente' 
 					placeholderTextColor='gray'
