@@ -53,7 +53,7 @@ export function Transcricao({route, navigation}) {
 			<CloseBtn iconName="chevron-left" onPress={() => navigation.goBack()}/>
 			{legenda ? (
 				<View style={style.legenda}>
-					<ScrollView ref={scrollViewRef} 
+					<ScrollView ref={scrollViewRef} style={{paddingBottom: '45%'}}
 						onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true})}>
 						<Text style={style.f22m}>{legenda}</Text>
 					</ScrollView>
