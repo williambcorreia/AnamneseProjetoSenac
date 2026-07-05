@@ -19,36 +19,34 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 		obterPermissao();
 	}, []);
 
+	useEffect(() => {
+		return () => {
+			ExpoSpeechRecognitionModule.abort()
+		}
+	}, [])
+
 	useSpeechRecognitionEvent("start", () => {setRecOn(true)})
 	useSpeechRecognitionEvent("end", (event) => {
+
 		setRecOn(false)
-
-		setTextoVoz((textoAtual) => { 
-			const resultado = textoAtual.trim();
-			if (resultado.length > 0) {
-					finalGravacao(resultado)
-			}
-
-			return resultado;
-		})
+		const resultado = textoVoz.trim();
+		if (resultado.length > 0) {
+				finalGravacao(resultado)
+		}
 	})
 
 	useSpeechRecognitionEvent("result", (event) => {
+		if (!event.results) return;
+		
+		console.log("Resultados: ", event.results)
+		const textoProvavel = event.results[0].transcript.trim()
 
-		if (!event.results) return
-		let resultado = event.results.map((result) => result.transcript).join(" ").trim()
-		if (!resultado && event.results.length > 0) resultado = event.results[event.results.length - 1].transcript
-    
-		if (resultado) {
-			let textoCompleto = (textoAcumulado.current + " " + resultado).trim()
-			setTextoVoz(textoCompleto)
-			mudouTexto(textoCompleto)
+		if (event.isFinal) {
+			textoAcumulado.current = textoAcumulado.current ? `${textoAcumulado.current} ${textoProvavel}` : textoProvavel
+			setTextoVoz(textoAcumulado.current)
+			mudouTexto(textoAcumulado.current)
 		}
-
-		const certezaResultado = event.results[event.results.length - 1]
-		if (certezaResultado?.isFinal) 
-			textoAcumulado.current = (textoAcumulado.current + " " + certezaResultado.transcript).trim()
-	})
+})
 
   const startRec = () => {
 		console.log("Gravação iniciada...")
@@ -57,7 +55,6 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
     } else {
       setTextoVoz("")
 			mudouTexto("")
-			textoAcumulado.current = ""
 
 		ExpoSpeechRecognitionModule.start({
 			lang: "pt-BR",
@@ -65,8 +62,8 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 			continuous: true,
 			requiresOnDeviceRecognition: true,
 			androidIntentOptions: {
-				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
-				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 5000,
+				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 15000,
+				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 15000,
 			}
 		})
   }
@@ -94,7 +91,7 @@ export const style = StyleSheet.create({
 		paddingTop: 15,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: 150
+		marginBottom: '45%',
 	},
 
 	font: {
