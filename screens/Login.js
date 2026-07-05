@@ -73,7 +73,6 @@ export default function Login({ navigation }) {
 
       <View style={style.loginTop}>
         <Image source={Logo} style={style.logo}/>
-        <Text style={[style.f22m, {fontSize: 30}]}>Bem-vindo!</Text>
       </View>
 
       <View style={style.loginMid}>
