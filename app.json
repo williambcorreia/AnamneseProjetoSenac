@@ -12,7 +12,8 @@
       "infoPlist": {
         "NSSpeechRecognitionUsageDescription": "Allow $(PRODUCT_NAME) to use speech recognition.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to use the microphone."
-      }
+      },
+      "bundleIdentifier": "com.anonymous.evolueai"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,12 +35,12 @@
       "expo-font",
       "expo-sqlite",
       "expo-speech-recognition",
-
       [
-      "llama.rn",
-      { "enableOpenCLAndHexagon": true}
+        "llama.rn",
+        {
+          "enableOpenCLAndHexagon": true
+        }
       ]
-
     ],
     "extra": {
       "eas": {

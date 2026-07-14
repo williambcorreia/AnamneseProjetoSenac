@@ -101,8 +101,8 @@ export function Rascunho({route, navigation}) {
 
 	const [db, setDb] = useState(null)
 	const [nomePaciente, setNomePaciente] = useState("")
-	const [evolucao, setEvolucao] = useState(textoFormatado || "")
 	const {textoFormatado} = route.params || {}
+	const [evolucao, setEvolucao] = useState(textoFormatado || "")
 
 	useEffect(() => {
 		async function connectDB() {
