@@ -19,16 +19,19 @@ export default function Login({ navigation }) {
 		}
 
 	const handleLogin = async () => {
-		
+
 		if (!user || !password) {
 			Alert.alert("Erro", "Preencha todos os campos!")
 			return
 		}
 
+		navigation.navigate("Carregamento", {text: "Tentando realizar login..."})
+
 		try {
 			const userRows = await execQuery(`SELECT * FROM usuarios WHERE nome_login = ?`, [user])
 
 			if (!userRows.data || userRows.data.length === 0) {
+				navigation.goBack()
 				Alert.alert("Erro", "Usuário ou senha incorretos!")
 				return
 			}
@@ -40,10 +43,12 @@ export default function Login({ navigation }) {
 				navigation.replace('HomeTabs', {role: userRows.data[0].cargo})
 			} else {
 				Alert.alert("Erro", "Usuário ou senha incorretos!")
+				navigation.goBack()
 			}
 		}
 		
 		catch (error) {
+			navigation.goBack()
 			Alert.alert("Erro", "Não foi possível realizar o login")
 			console.log("Erro: ", error)
 		}
