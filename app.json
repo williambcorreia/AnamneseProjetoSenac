@@ -34,13 +34,7 @@
     "plugins": [
       "expo-font",
       "expo-sqlite",
-      "expo-speech-recognition",
-      [
-        "llama.rn",
-        {
-          "enableOpenCLAndHexagon": true
-        }
-      ]
+      "expo-speech-recognition"
     ],
     "extra": {
       "eas": {
