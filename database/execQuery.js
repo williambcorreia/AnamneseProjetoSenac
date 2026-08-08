@@ -15,7 +15,7 @@ export default async function execQuery(query, qparams = []) {
 		const text = await response.text()
 		if (!text) throw new Error(response.status)
 
-		console.log(`Status HTTP: (${response.status})`)
+		console.log(`\nStatus HTTP: (${response.status})`)
 		console.log("Resposta bruta do servidor: ", text)
 
 		const data = JSON.parse(text)
