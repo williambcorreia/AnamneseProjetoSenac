@@ -10,7 +10,6 @@ import RecordBtn from '../components/RecordButton'
 import Input from '../components/Input'
 import LongInput from '../components/LongInput'
 import { executarLLM } from '../services/llm'
-import { seedEvolucaoDB } from '../database/InitDB'
 
 export function Evolucao({route, navigation}) {
 
@@ -34,7 +33,7 @@ export function Transcricao({route, navigation}) {
 
 		try {
 			setTimeout(() => {
-				navigation.navigate("Carregamento")
+				navigation.navigate("Carregamento", {text: "Formatando evolução na IA..."})
 			}, 0)
 			console.log("Processando na LLM...")
 			const textoFormatado = await executarLLM(texto)
@@ -87,12 +86,15 @@ export function Config({route, navigation}) {
 	)
 }
 
-export function Carregamento({navigation}) {
+export function Carregamento({route, navigation}) {
+
+	const text = route.params?.text || ""
+
 	return (
 		<View style={style.container}>
 			<View style={style.greenBorder}/>
 			<ActivityIndicator size={100} color='mediumseagreen'/>
-			<Text style={style.f16r}>Formatando evolução na IA...</Text>
+			<Text style={style.f16r}>{text}</Text>
 		</View>
 	)
 }
