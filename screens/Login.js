@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Text, Image, View, Alert } from "react-native";
-import { style } from "../styles";
-import * as Crypt from 'expo-crypto'
-import Logo from "../assets/pharmacy.png";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import { DeployDB } from "../database/InitDB";
+import React, { useEffect, useState } from "react"
+import { Text, Image, View, Alert } from "react-native"
+import { style } from "../styles"
+import Logo from "../assets/pharmacy.png"
+import Input from "../components/Input"
+import Button from "../components/Button"
+import execQuery from "../database/execQuery.js"
+import bcrypt from 'bcryptjs'
 
 export default function Login({ navigation }) {
 
 		const [user, setUser] = useState("")
 		const [password, setPassword] = useState("")
-		const [db, setDb] = useState(null)
 
 		const [hidePassword, setHidePassword] = useState(true);
 
@@ -19,42 +18,26 @@ export default function Login({ navigation }) {
 			setHidePassword(!hidePassword)
 		}
 
-		useEffect(() => {
-			async function connectDB() {
-				const connection = await DeployDB()
-				if (connection === "err") {
-					Alert.alert("Erro", "Não foi possível se conectar ao banco de dados")
-				} else {
-					setDb(connection)
-				}
-			}
-			connectDB()
-		}, [])
-
 	const handleLogin = async () => {
 		
 		if (!user || !password) {
 			Alert.alert("Erro", "Preencha todos os campos!")
 			return
 		}
-		
-		if (!db) {
-			Alert.alert("Erro", "Banco de dados ainda não carregou!")
-			return
-		}
 
 		try {
-			const passwordCrypto = await Crypt.digestStringAsync(
-				Crypt.CryptoDigestAlgorithm.SHA256, password
-			)
+			const userRows = await execQuery(`SELECT * FROM usuarios WHERE nome_login = ?`, [user])
 
-			const userFound = await db.getFirstAsync(
-				'SELECT * FROM users WHERE (user = ? OR email = ?) AND password = ?;',
-				[user, user, passwordCrypto]
-			)
+			if (!userRows.data || userRows.data.length === 0) {
+				Alert.alert("Erro", "Usuário ou senha incorretos!")
+				return
+			}
 
-			if (userFound) {
-				navigation.replace('HomeTabs', {role: userFound.role})
+			const dbHash = userRows.data[0].senha
+			const hashCompare = await bcrypt.compare(password, dbHash)
+
+			if (hashCompare) {
+				navigation.replace('HomeTabs', {role: userRows.data[0].cargo})
 			} else {
 				Alert.alert("Erro", "Usuário ou senha incorretos!")
 			}
