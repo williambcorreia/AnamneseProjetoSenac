@@ -9,16 +9,17 @@ import CloseBtn from '../components/CloseButton'
 import RecordBtn from '../components/RecordButton'
 import Input from '../components/Input'
 import LongInput from '../components/LongInput'
-import { executarLLM } from '../services/llm'
+import executarLLM from '../services/llm'
+import execQuery from '../database/execQuery.js'
 
 export function Evolucao({route, navigation}) {
 
-	const {role} = route.params || {}
+	const {userInfo} = route.params || {}
 
 	return (
 		<View style={style.container}>
 			<Text>Evoluções</Text>
-				<RoundBtn iconName="plus" iconColor='white' onPress={() => navigation.navigate('Transcrição')}/>
+				<RoundBtn iconName="plus" iconColor='white' onPress={() => navigation.navigate('Transcrição', {userInfo})}/>
 		</View>
 	)
 }
@@ -27,6 +28,7 @@ export function Transcricao({route, navigation}) {
 
 	const [legenda, setLegenda] = useState("")
 	const scrollViewRef = useRef(null)
+	const {userInfo} = route.params || {}
 
 	const textoRecebido = async (texto) => {
 		console.log("Texto da gravação: ", texto)
@@ -38,7 +40,7 @@ export function Transcricao({route, navigation}) {
 			console.log("Processando na LLM...")
 			const textoFormatado = await executarLLM(texto)
 			console.log("Texto da LLM: ", textoFormatado)
-			navigation.replace("Rascunho", {textoFormatado: textoFormatado})
+			navigation.replace("Rascunho", {textoFormatado, userInfo})
 		} catch (err) {
 			console.error("Erro: ", err)
 			navigation.navigate("Transcrição")
@@ -103,30 +105,21 @@ export function Rascunho({route, navigation}) {
 
 	const [db, setDb] = useState(null)
 	const [nomePaciente, setNomePaciente] = useState("")
-	const {textoFormatado} = route.params || {}
+	const {textoFormatado, userInfo} = route.params || {}
 	const [evolucao, setEvolucao] = useState(textoFormatado || "")
-
-	useEffect(() => {
-		async function connectDB() {
-			const connection = await seedEvolucaoDB()
-			if (connection === "err") {
-				Alert.alert("Erro", "Não foi possível se conectar ao banco de dados")
-			} else {
-				setDb(connection)
-			}
-		}
-		connectDB()
-	}, [])
 
 	const finalizarEvolucao = async () => {
 		if (!nomePaciente) { Alert.alert("Erro", "Preencha o campo de nome do paciente"); return }
 
-		try {
-			//await db.runAsync(`INSERT INTO evolucoes (feito_por, nome_paciente, texto_evolucao, data) VALUES (?, ?, ?, ?);`)
-			navigation.goBack()
-		} catch (err) {
-			return "err"
-		}
+		const dataAtual = new Date().toLocaleString('pt-BR', {
+			dateStyle: 'short',
+			timeStyle: 'medium'
+		})
+		const textoFinal = `${evolucao}\n\nFeito por: ${userInfo.nome}\nCriado em: ${dataAtual}\n${userInfo.coren}`
+
+		execQuery(`INSERT INTO evolucoes (quem_fez, texto_evolucao, paciente) VALUES (?, ?, ?)`, [userInfo.id, textoFinal, nomePaciente])
+
+		navigation.goBack()
 	}
 
 	return (
