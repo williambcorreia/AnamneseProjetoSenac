@@ -40,7 +40,15 @@ export default function Login({ navigation }) {
 			const hashCompare = await bcrypt.compare(password, dbHash)
 
 			if (hashCompare) {
-				navigation.replace('HomeTabs', {role: userRows.data[0].cargo})
+				const dbInfo = userRows.data[0]
+				const userInfo = {
+					id: dbInfo.id_usuario,
+					nome: dbInfo.nome_completo,
+					coren: dbInfo.coren,
+					cargo: dbInfo.cargo
+				}
+
+				navigation.replace('HomeTabs', {userInfo})
 			} else {
 				Alert.alert("Erro", "Usuário ou senha incorretos!")
 				navigation.goBack()
