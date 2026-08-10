@@ -1,4 +1,4 @@
-export async function executarLLM(texto){
+export default async function executarLLM(texto){
 	try {
 		const resposta = await fetch("https://evolueai.loca.lt/api/generate", {
 			method: "POST",
