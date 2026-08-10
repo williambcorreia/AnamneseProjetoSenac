@@ -2,13 +2,13 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Evolucao, Config, Prescricao } from './Home'
+import { Evolucao, Config, Prescricao } from './Home.js'
 
 const Tab = createBottomTabNavigator()
 
 export default function HomeTabs({route}) {
 
-	const {role} = route.params || {}
+	const {userInfo} = route.params || {}
 
 	return(
 		<Tab.Navigator
@@ -20,16 +20,18 @@ export default function HomeTabs({route}) {
 			tabBarStyle: style.tabBar,
 			tabBarLabelStyle: style.tabBarLabel}}>
 
-			{ role === 'Enf' || role === 'TecEnf' ? (
+			{ userInfo?.cargo === 'Enf' || userInfo?.cargo === 'TecEnf' ? (
 			<>
 				<Tab.Screen 
 				name="Evolução" 
 				component={Evolucao} 
+				initialParams={{ userInfo }}
 				options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='notes-medical' size={size} color={color}/>)}}/>
 
 				<Tab.Screen 
 				name="Prescrição" 
 				component={Prescricao} 
+				initialParams={{ userInfo }}
 				options={{tabBarIcon: ({ color, size }) => (<FontAwesome5 name='clipboard-check' size={size} color={color}/>)}}/>
 			</>
 			) : null}
