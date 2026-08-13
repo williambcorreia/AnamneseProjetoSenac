@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { View, Text, TouchableOpacity, Alert, ScrollView, ActivityIndicator } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React, { useState, useRef, useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import { View, Text, TouchableOpacity, Alert, ScrollView, ActivityIndicator, FlatList} from 'react-native'
 import { style } from '../styles'
 import Button from '../components/Button'
 import CfgButton from '../components/ConfigButton'
@@ -8,6 +8,7 @@ import RoundBtn from '../components/RoundButton'
 import CloseBtn from '../components/CloseButton'
 import RecordBtn from '../components/RecordButton'
 import Input from '../components/Input'
+import CardEvolucao from '../components/Card.js'
 import LongInput from '../components/LongInput'
 import executarLLM from '../services/llm'
 import execQuery from '../database/execQuery.js'
@@ -15,11 +16,40 @@ import execQuery from '../database/execQuery.js'
 export function Evolucao({route, navigation}) {
 
 	const {userInfo} = route.params || {}
+	const [evolucoes, setEvolucoes] = useState([])
+
+	useFocusEffect(
+		useCallback(() => {
+			async function carregarEvolucoes() {
+				try {
+					const response = await execQuery(
+						`SELECT id_evolucao, paciente, texto_evolucao, criado_em 
+						 FROM evolucoes WHERE quem_fez = ? ORDER BY criado_em DESC;`,
+						[userInfo.id]
+					)
+
+					if (response?.data) setEvolucoes(response.data)
+				} catch (err) {
+					console.error(`Erro ao buscar as evoluções: ${err}`)
+				}
+			}
+
+			if (userInfo?.id) {
+				carregarEvolucoes()
+			}
+		}, [userInfo])
+	)
 
 	return (
 		<View style={style.container}>
-			<Text>Evoluções</Text>
-				<RoundBtn iconName="plus" iconColor='white' onPress={() => navigation.navigate('Transcrição', {userInfo})}/>
+			<FlatList
+				style={{width: '100%'}}
+				contentContainerStyle={{alignItems: 'center', paddingVertical: 16, gap: 12}}
+				data={evolucoes}
+				keyExtractor={(item) => item.id_evolucao.toString()}
+				renderItem={({item}) => <CardEvolucao item={item} onPress={() => navigation.navigate('DetalhesEvolução', {evolucao: item?.texto_evolucao})}/>}
+			/>
+			<RoundBtn iconName="plus" iconColor='white' onPress={() => navigation.navigate('Transcrição', {userInfo})}/>
 		</View>
 	)
 }
@@ -117,9 +147,15 @@ export function Rascunho({route, navigation}) {
 		})
 		const textoFinal = `${evolucao}\n\nFeito por: ${userInfo.nome}\nCriado em: ${dataAtual}\n${userInfo.coren}`
 
-		execQuery(`INSERT INTO evolucoes (quem_fez, texto_evolucao, paciente) VALUES (?, ?, ?)`, [userInfo.id, textoFinal, nomePaciente])
+		try {
+			await execQuery(`INSERT INTO evolucoes (quem_fez, texto_evolucao, paciente) VALUES (?, ?, ?)`,
+			[userInfo.id, textoFinal, nomePaciente])
 
-		navigation.goBack()
+			navigation.goBack()
+		} catch (err) {
+			console.error(`Erro ao salvar evolução: ${err}`)
+			Alert.alert("Erro", "Não foi possível salvar a evolução")
+		}
 	}
 
 	return (
