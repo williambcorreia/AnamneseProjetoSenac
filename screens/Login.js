@@ -73,9 +73,9 @@ export default function Login({ navigation }) {
 
       <View style={style.loginMid}>
 
-				<Text style={style.f16r}>Usuário ou Email</Text>
+				<Text style={style.f16r}>Usuário</Text>
         <Input 
-					placeholder="exemplo@gmail.com" 
+					placeholder="usuarioEx123" 
 					placeholderTextColor='gray'
 					iconName="user-alt" 
 					iconSize={24}
