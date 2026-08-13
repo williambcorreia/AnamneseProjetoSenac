@@ -23,7 +23,9 @@ export const style = StyleSheet.create({
 		alignItems: 'center',
 		position: 'absolute',
 		right: 25,
-		bottom: 30 
+		bottom: 30,
+		zIndex: 99,
+		elevation: 5
 	},
 
 })
