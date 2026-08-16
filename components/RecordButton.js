@@ -48,7 +48,7 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
 		}
 })
 
-  const startRec = () => {
+  const startRec = async () => {
 		console.log("Gravação iniciada...")
     if (recOn) {
       ExpoSpeechRecognitionModule.stop();
@@ -56,18 +56,23 @@ export default function RecordBtn({finalGravacao, mudouTexto, title, iconName, i
       setTextoVoz("")
 			mudouTexto("")
 
-		ExpoSpeechRecognitionModule.start({
-			lang: "pt-BR",
-			interimResults: true,
-			continuous: true,
-			requiresOnDeviceRecognition: true,
-			androidIntentOptions: {
-				EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 15000,
-				EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 15000,
+			try {
+				await ExpoSpeechRecognitionModule.start({
+					lang: "pt-BR",
+					interimResults: true,
+					continuous: true,
+					requiresOnDeviceRecognition: false,
+					androidIntentOptions: {
+						EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 15000,
+						EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 15000,
+					}
+				})
+			} catch (err) {
+				console.error(`Erro: ${err}`)
+				Alert.alert("Erro", "Verifique as permissões de acesso ao microfone ou conexão")
 			}
-		})
-  }
-}
+		}
+	}
 
 	return(
 		<TouchableOpacity style={[style.button, recOn ? style.activeBtn : null]} onPress={startRec} {...props}>
