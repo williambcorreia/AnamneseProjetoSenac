@@ -44,7 +44,7 @@ export function Evolucao({route, navigation}) {
 		<View style={style.container}>
 			<FlatList
 				style={{width: '100%'}}
-				contentContainerStyle={{alignItems: 'center', paddingVertical: 16, gap: 12}}
+				contentContainerStyle={{paddingVertical: '5%', gap: 15}}
 				data={evolucoes}
 				keyExtractor={(item) => item.id_evolucao.toString()}
 				renderItem={({item}) => <CardEvolucao item={item} onPress={() => navigation.navigate('DetalhesEvolução', {evolucao: item?.texto_evolucao})}/>}

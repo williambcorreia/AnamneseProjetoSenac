@@ -11,49 +11,51 @@ export const style = StyleSheet.create({
 	},
 
   loginTop: {
-    width: 300,
-    height: 170,
+    width: '80%',
+    height: '25%',
 		alignItems:'center',
     justifyContent:'center',
     gap: 20,
-    marginBottom: 50
+    marginTop: '10%',
+		marginBottom: '5%'
   },
 
   loginMid: {
-    width: 315,
-    height: 150,
+    width: '88%',
+    height: '20%',
     justifyContent:'center',
     gap: 5,
-		marginBottom: 70
+		marginBottom: '20%',
   },
 
   loginBottom: {
-    width: 300,
-    height: 150,
+    width: '85%',
+    height: '15%',
 		alignItems:'center',
     justifyContent:'flex-end',
-		gap: 20
+		gap: 20,
+		marginBottom: '15%'
   },
 
 	draftContainer: {
 		alignItems: 'center', 
-		width: 330, 
+		width: '90%', 
 		gap: 30, 
-		marginBottom: 50, 
-		height: 550, 
+		marginBottom: '10%', 
+		height: '72%', 
 	},
   
 	greenBorder: {
 		width: '100%',
-		height: 35,
+		height: '4%',
 		backgroundColor: 'mediumseagreen',
 		position:'absolute',
 		top: 0,
 	},
 
 	logo: {
-		width: 240,
-		height: 240,
+		width: '100%',
+		height: '130%',
 	},
 
 	f16r: {
@@ -69,9 +71,9 @@ export const style = StyleSheet.create({
 	legenda: {
 		fontFamily: 'Inter_500Medium',
 		position: 'absolute',
-		top: 440,
+		top: '55%',
 		width: '90%',
-		maxHeight: 350,
+		maxHeight: '35%',
 		alignSelf: 'center',
 	},
 

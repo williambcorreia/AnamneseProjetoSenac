@@ -15,11 +15,11 @@ export default function CloseBtn({title, iconName, iconColor, onPress, ...props}
 export const style = StyleSheet.create({
 
 	closeButton: {
-		width: 50,
-		height: 50,
+		width: '8%',
+		height: '5%',
 		position: 'absolute',
-		left: 15,
-		top: 50 
+		left: '6%',
+		top: '7%',
 	},
 
 })

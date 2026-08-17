@@ -91,8 +91,8 @@ export const style = StyleSheet.create({
 	button: {
 		backgroundColor: 'mediumseagreen',
 		borderRadius: 100,
-		width: 160,
-		height: 160,
+		width: '50%',
+		height: '22%',
 		paddingTop: 15,
 		justifyContent: 'center',
 		alignItems: 'center',

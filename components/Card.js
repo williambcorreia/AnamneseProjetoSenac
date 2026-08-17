@@ -20,8 +20,9 @@ export default function CardEvolucao ({ item, onPress }) {
 export const style = StyleSheet.create({
 
 	card: {
-		width: 330,
+		width: '94%',
 		height: 150,
+		alignSelf: 'center',
 		borderWidth: 2,
 		borderRadius: 30,
 		borderColor: 'gray',
@@ -31,7 +32,7 @@ export const style = StyleSheet.create({
 
 	separador: {
 		width: '100%', 
-		height: 2, 
+		height: '1%', 
 		backgroundColor: 'gray'
 	},
 
