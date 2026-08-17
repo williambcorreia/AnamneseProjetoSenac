@@ -27,7 +27,7 @@ export default function Input({iconName, iconPress, iconSize, ...props}){
 
 export const style = StyleSheet.create({
 
-	inputView:{
+	inputView: {
 		gap: 10,
 		flexDirection: 'row',
 		justifyContent: 'center',
@@ -46,7 +46,7 @@ export const style = StyleSheet.create({
   },
 
 	icon: {
-		width: 30,
+		width: '10%',
 		alignItems: 'center',
 	}
 

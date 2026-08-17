@@ -17,13 +17,13 @@ export const style = StyleSheet.create({
 	button: {
 		backgroundColor: 'mediumseagreen',
 		borderRadius: 100,
-		width: 50,
-		height: 50,
+		width: '15%',
+		height: '7%',
 		justifyContent: 'center',
 		alignItems: 'center',
 		position: 'absolute',
-		right: 25,
-		bottom: 30,
+		right: '6%',
+		bottom: '4%',
 		zIndex: 99,
 		elevation: 5
 	},

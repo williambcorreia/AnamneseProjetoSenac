@@ -17,7 +17,8 @@ export const style = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		paddingLeft: 10,
-		borderWidth: 1
+		borderWidth: 1,
+		borderColor: 'gray'
 	},
 
 	font: {

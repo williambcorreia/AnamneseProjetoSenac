@@ -48,12 +48,11 @@ export default function HomeTabs({route}) {
 const style = StyleSheet.create({
 	
 	header: {
-		height: 35,
-		backgroundColor: 'mediumseagreen',
+		height: '4%'
 	},
 
 	tabBar: {
-		height: 60,
+		height: '8%',
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
